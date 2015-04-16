@@ -1,4 +1,4 @@
-﻿var firebaseUrl = "https://ccamplesson.firebaseio.com/"
+﻿var firebaseUrl = "https://ccamplessons.firebaseio.com/"
 var Contact = function (name, email, phone) {
     this.name = name;
     this.email = email;
@@ -23,9 +23,19 @@ var PrintContacts = function () {
     $('#DisplayContactsHere').html('');
     var elemString = '';
     for (var i = 0; i < contacts.length; i++) {
-
+        elemString += '<tr>'
+        elemString += '<td>' + contacts[i].name + '</td>'
+        elemString += '<td>' + contacts[i].email + '</td>'
+        elemString += '<td>' + contacts[i].phone + '</td>'
+        elemString += '<td><button class="btn btn-warning" onclick="editContact(' + i + ')">Edit</button><button class="btn btn-danger" onclick="deleteContact('+i+')">Delete</button></td>'
+        elemString += '</tr>'
     }
     $('#DisplayContactsHere').html(elemString);
+}
+
+var editContact = function (i) {
+    document.getElementById('editName').value = contacts[i].name;
+    $('#myModal').modal('toggle');
 }
 
 var postContact = function (data) {
@@ -44,3 +54,39 @@ var postContact = function (data) {
     }
     request.send(JSON.stringify(data));
 }
+
+var getContacts = function () {
+    var request = new XMLHttpRequest();
+    request.open('GET', firebaseUrl + '.json', true);
+    request.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            var response = JSON.parse(this.response);
+            for (var propName in response) {
+                response[propName].key = propName;
+                contacts.push(response[propName]);
+            }
+            PrintContacts();
+        }
+        else {
+            console.log(this.response);
+        }
+    }
+    request.send();
+}
+
+var deleteContact = function (i) {
+    var request = new XMLHttpRequest();
+    request.open('DELETE', firebaseUrl + contacts[i].key + '/.json', true);
+    request.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            contacts.splice(i, 1);
+            PrintContacts();
+        }
+    }
+    request.send();
+}
+
+getContacts();
+
+//response.prop
+//response[prop]

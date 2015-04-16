@@ -10,7 +10,7 @@
         <i>Name:</i><input placeholder="Name..." class="form-control" id="inputName" />
         <i>Email:</i><input placeholder="Email..." class="form-control" id="inputEmail" />
         <i>Phone:</i><input placeholder="Phone Number..." class="form-control" id="inputPhone" />
-        <button class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary" onclick="addContact()">Submit</button>
     </div>
     <table class="table table-bordered">
         <thead>
@@ -23,6 +23,29 @@
         </thead>
         <tbody id="DisplayContactsHere"> <!--innerHTML--> </tbody>
     </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Contact</h4>
+                </div>
+                <div class="modal-body">
+                    <i>Name:</i><input placeholder="Name..." class="form-control" id="editName" />
+                    <i>Email:</i><input placeholder="Email..." class="form-control" id="editEmail" />
+                    <i>Phone:</i><input placeholder="Phone Number..." class="form-control" id="editPhone" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Scripts -->
     <script src="Scripts/jquery-2.1.3.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
     <script src="Script.js"></script>
