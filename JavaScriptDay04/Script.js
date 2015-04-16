@@ -35,7 +35,35 @@ var PrintContacts = function () {
 
 var editContact = function (i) {
     document.getElementById('editName').value = contacts[i].name;
+    $('#editEmail').val(contacts[i].email);
+    $('#editPhone').val(contacts[i].phone);
+    $('#SaveEditButton').html('<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveEdit(' + i + ');">Save changes</button>')
     $('#myModal').modal('toggle');
+}
+
+var saveEdit = function (i) {
+    var name = $('#editName').val();
+    var email = $('#editEmail').val();
+    var phone = $('#editPhone').val();
+    var newContact = new Contact(name, email, phone);
+    putContact(newContact, i);
+}
+
+var putContact = function (data, i) {
+    var key = contacts[i].key;
+    var request = new XMLHttpRequest();
+    request.open('PUT', firebaseUrl + key + '/.json', true);
+    request.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            data.key = contacts[i].key;
+            contacts.splice(i, 1, data);
+            PrintContacts();
+        }
+        else {
+            console.error(this.response);
+        }
+    }
+    request.send(JSON.stringify(data));
 }
 
 var postContact = function (data) {
